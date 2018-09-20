@@ -80,6 +80,8 @@
 <body class="index-page">
 	<div class="container user-content section-page">
 <!-- 		<?php 
+
+
 echo "<pre>";
 print_r($errors);
 echo "</pre>";

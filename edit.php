@@ -1,4 +1,4 @@
-<?php 
+ <?php 
 
 	$resultSuccess = "";
 	$resultError = "";
@@ -8,11 +8,14 @@
 
 	// echo "<pre>";
 	// print_r($_GET);
+	// print_r($_POST);
 	// echo "</pre>";
 
 	if ( mysqli_connect_error() ) {
 		die("Ошибка подключения к базе данных.");
 	}
+
+
 
 
 	if (@$_GET['action'] == 'delete') {
@@ -25,7 +28,7 @@
 	}
 
 
-	if ( array_key_exists('newFilm', $_POST) ) {
+if ( array_key_exists('update-film', $_POST) ) {
 	
 	// Обработка ошибок
 
@@ -40,32 +43,31 @@
 		}
 		if ( empty($errors) ) {
 			// Запись данных в БД
-			$query = "INSERT INTO filmoteka (name, genre, year) VALUES (
-				'". mysqli_real_escape_string($link, $_POST['name']) ."', 
-				'". mysqli_real_escape_string($link, $_POST['genre']) ."', 
-				'". mysqli_real_escape_string($link, $_POST['year']) ."'
-				)";
+			$query = "UPDATE filmoteka 
+								SET name ='". mysqli_real_escape_string($link, $_POST['name']) ."',
+										genre ='". mysqli_real_escape_string($link, $_POST['genre']) ."',
+										year='". mysqli_real_escape_string($link, $_POST['year']) ."'
+								WHERE id=".mysqli_real_escape_string($link, $_GET['id'])." LIMIT 1";
+
 
 			if ( mysqli_query($link, $query) ) {
-				$resultSuccess = "<p>Фильм был успешно добавлен!</p>";
+				$resultInfo = "<p>Фильм был успешно добавлен!</p>";
 			} else { 
 				$resultError = "<p>Что то пошло не так. Добавьте фильм еще раз!</p>";
 			}
 		}
+	}
+
+// Выборка с бд
+$query = "SELECT * FROM filmoteka WHERE id = ' ".mysqli_real_escape_string($link, $_GET['id'])." ' LIMIT 1";
+
+
+$result = mysqli_query($link, $query);
+
+if ( $result = mysqli_query($link, $query) ) {
+	$film = mysqli_fetch_array($result);
 }
 
-
-
-	$query = "SELECT * FROM filmoteka";
-	$films = array();
-
-	$result = mysqli_query($link, $query);
-
-	if ( $result = mysqli_query($link, $query) ) {
-		while ( $row = mysqli_fetch_array($result)  ) {
-			$films[] = $row;
-		}
-	}
 
 ?>
 
@@ -106,27 +108,11 @@
 		<?php } ?>
 
 
-		<div class="title-1">Фильмотека</div>
-		<?php
-			foreach ($films as $key => $film) {
-		?>
-			<div class="card mb-20">
-				<div class="card__header">
-					<h4 class="title-4"><?=$film['name']?></h4>
-					<div class="buttons">
-						<a href="edit.php?id=<?=$film['id']?>" class="button button--editsmall">Редактировать</a>
-						<a href="?action=delete&id=<?=$film['id']?>" class="button button--removesmall">Удалить</a>
-					</div>
+		<div class="title-1">Редактирование фильма <?=$film['name']?></div>
 
-				</div>
-				<div class="badge"><?=$film['genre']?></div>
-				<div class="badge"><?=$film['year']?></div>
-			</div>
-		<?php } ?>
-
-		<div class="panel-holder mt-80 mb-40">
+		<div class="panel-holder mt-30 mb-40">
 			<div class="title-3 mt-0">Добавить фильм</div>
-			<form action="index.php" method="POST">
+			<form action="edit.php?id=<?=$film['id']?>" method="POST">
 
 				<?php 
 				if ( !empty($errors)) {
@@ -137,18 +123,19 @@
 				?>
 
 				<div class="form-group">
-					<label class="label">Название фильма<input class="input" name="name" type="text" placeholder="Такси 2" /></label>
+					<label class="label">Название фильма<input class="input" name="name" type="text" placeholder="Такси 2" value="<?=$film['name']?>" /></label>
 				</div>
 				<div class="row">
 					<div class="col">
-						<div class="form-group"><label class="label">Жанр<input class="input" name="genre" type="text" placeholder="комедия" /></label></div>
+						<div class="form-group"><label class="label">Жанр<input class="input" name="genre" type="text" placeholder="комедия" value="<?=$film['genre']?>"/></label></div>
 					</div>
 					<div class="col">
-						<div class="form-group"><label class="label">Год<input class="input" name="year" type="text" placeholder="2000" /></label></div>
+						<div class="form-group"><label class="label">Год<input class="input" name="year" type="text" placeholder="2000" value="<?=$film['year']?>"/></label></div>
 					</div>
 				</div>
-				<input class="button" type="submit" name="newFilm" value="Добавить" />
+				<input class="button" type="submit" name="update-film" value="Обновить" />
 			</form>
+			<a class="button mt-20" href="index.php">Вернуться на главную</a>
 		</div>
 	</div><!-- build:jsLibs js/libs.js -->
 	<script src="libs/jquery/jquery.min.js"></script><!-- endbuild -->

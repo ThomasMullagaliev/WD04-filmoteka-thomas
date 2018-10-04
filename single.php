@@ -16,16 +16,19 @@
 		// mysqli_affected_row($link);
 	}
 
-	$films = films_all($link);
+	$film = get_film($link, $_GET['id']);
+
+	// echo "<pre>";
+	// print_r($film);
+	// echo "</pre>";
 
 
 	include 'views/header.tpl';
 	include 'views/notification.tpl';
-	include 'views/index.tpl';
+	include 'views/single.tpl';
 	include 'views/footer.tpl';
 
 
 ?>
-
 
 

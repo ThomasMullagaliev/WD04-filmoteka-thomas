@@ -5,6 +5,7 @@
 
  $link = db_connect();
  require('models/films.php');
+ require('functions/checkAdmin.php');
 
 
  if ( array_key_exists('update-film', $_POST) ) {

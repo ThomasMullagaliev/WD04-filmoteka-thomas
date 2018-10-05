@@ -4,6 +4,7 @@
 
 	$link = db_connect();
 	require('models/films.php');
+	require('functions/checkAdmin.php');
 
 	if (@$_GET['action'] == 'delete') {
 		$result = film_delete($link, $_GET['id']);

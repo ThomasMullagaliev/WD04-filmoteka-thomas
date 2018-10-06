@@ -1,6 +1,7 @@
 <?php 
 require 'config.php';
 require 'database.php';
+require 'functions/checkAdmin.php';
 
 $link = db_connect();
 require('models/films.php');

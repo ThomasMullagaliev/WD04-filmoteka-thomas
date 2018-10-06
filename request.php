@@ -1,4 +1,6 @@
 <?php 
+	require 'functions/checkAdmin.php';
+
 	if ( isset($_POST['user-submit']) ) {
 		$userName1 = $_POST['user-name'];
 		$userCity1 = $_POST['user-city'];

@@ -1,5 +1,5 @@
 <?php 
-
+// include "functions/checkAdmin.php";
  ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -52,6 +52,18 @@
 			<?php	} ?>
 			
 		</ul>
+
+		<?php if ( isset($_COOKIE['user-name']) ) { ?>
+		<div class="mb-50">
+
+			<?php if ( isset($_COOKIE['user-city']) ) { ?>
+				Привет, <?=$_COOKIE['user-name']?> из <?=$_COOKIE['user-city']?>!
+			<?php } else { ?>
+				Привет, <?=$_COOKIE['user-name']?>!
+			<?php } ?>
+
+		</div>
+		<?php } ?>
 
 
 		

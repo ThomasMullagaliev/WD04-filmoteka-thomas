@@ -1,5 +1,8 @@
 <div class="title-1">Фильмотека</div>
+
 <?php
+
+
 foreach ($films as $key => $film) {
 	?>
 	<div class="card mb-20">

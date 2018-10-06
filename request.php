@@ -7,7 +7,7 @@
 		setcookie('user-city', $userCity1, $exrire );
 	}
 
-
+	require('functions/checkAdmin.php');
 	include 'views/header.tpl';
 	include 'views/request.tpl';
 	include 'views/footer.tpl';
